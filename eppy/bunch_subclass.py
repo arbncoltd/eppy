@@ -8,19 +8,16 @@
 # =======================================================================
 """Sub class Bunch to represent an IDF object.
 """
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-from __future__ import unicode_literals
+from __future__ import absolute_import, division, print_function, unicode_literals
 
 import copy
 import itertools
 
 from munch import Munch as Bunch
 
-from eppy.bunchhelpers import matchfieldnames, scientificnotation, makefieldname
-import eppy.function_helpers as fh
 import eppy.ext_field_functions as extff
+import eppy.function_helpers as fh
+from eppy.bunchhelpers import makefieldname, matchfieldnames, scientificnotation
 
 
 class BadEPFieldError(AttributeError):
@@ -680,5 +677,5 @@ def get_referenced_object(referring_object, fieldname):
             valid_object_lists = obj.getfieldidd_item("Name", "reference")
             if set(object_list).intersection(set(valid_object_lists)):
                 referenced_obj_name = referring_object[fieldname]
-                if obj.Name == referenced_obj_name:
+                if obj.isequal("Name", referenced_obj_name):
                     return obj
