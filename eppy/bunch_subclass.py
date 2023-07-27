@@ -680,5 +680,5 @@ def get_referenced_object(referring_object, fieldname):
             valid_object_lists = obj.getfieldidd_item("Name", "reference")
             if set(object_list).intersection(set(valid_object_lists)):
                 referenced_obj_name = referring_object[fieldname]
-                if obj.Name == referenced_obj_name:
+                if obj.isequal("Name", referenced_obj_name):
                     return obj
