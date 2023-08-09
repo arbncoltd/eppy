@@ -26,8 +26,8 @@ def rvalue(ddtt):
     R value (m2-K/W) of a construction or material.
     thickness (m) / conductivity (W/m-K)
     """
-    object_type = ddtt.obj[0]
-    if object_type == "Construction":
+    object_type = ddtt.obj[0].upper()
+    if object_type == "CONSTRUCTION":
         rvalue = INSIDE_FILM_R + OUTSIDE_FILM_R
         layers = ddtt.obj[2:]
         field_idd = ddtt.getfieldidd("Outside_Layer")
@@ -42,17 +42,17 @@ def rvalue(ddtt):
                     pass
             if not found:
                 raise AttributeError("%s material not found in IDF" % layer)
-    elif object_type == "Material":
+    elif object_type == "MATERIAL":
         thickness = ddtt.obj[ddtt.objls.index("Thickness")]
         conductivity = ddtt.obj[ddtt.objls.index("Conductivity")]
         rvalue = thickness / conductivity
-    elif object_type == "Material:AirGap":
+    elif object_type == "MATERIAL:AIRGAP":
         rvalue = ddtt.obj[ddtt.objls.index("Thermal_Resistance")]
-    elif object_type == "Material:InfraredTransparent":
+    elif object_type == "MATERIAL:INFRAREDTRANSPARENT":
         rvalue = 0
-    elif object_type == "Material:NoMass":
+    elif object_type == "MATERIAL:NOMASS":
         rvalue = ddtt.obj[ddtt.objls.index("Thermal_Resistance")]
-    elif object_type == "Material:RoofVegetation":
+    elif object_type == "MATERIAL:ROOFVEGETATION":
         warnings.warn(
             "Material:RoofVegetation thermal properties are based on dry soil",
             UserWarning,
