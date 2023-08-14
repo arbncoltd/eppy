@@ -249,17 +249,16 @@ def iddofobject(data, commdct, key):
     return commdct[i]
 
 
-def getextensibleindex(bunchdt, data, commdct, key, objname):
+def getextensibleindex(data, commdct, key):
     """get the index of the first extensible item"""
-    theobject = getobject(bunchdt, key, objname)
-    if theobject == None:
-        return None
     theidd = iddofobject(data, commdct, key)
     extensible_i = [i for i in range(len(theidd)) if "begin-extensible" in theidd[i]]
     try:
         extensible_i = extensible_i[0]
     except IndexError:
-        return theobject
+        return None
+    
+    return extensible_i
 
 
 def removeextensibles(bunchdt, data, commdct, key, objname):
@@ -891,7 +890,7 @@ class IDF(object):
         """
         return getobject(self.idfobjects, key, name)
 
-    def getextensibleindex(self, key, name):
+    def getextensibleindex(self, key):
         """
         Get the index of the first extensible item.
 
@@ -909,7 +908,7 @@ class IDF(object):
         int
 
         """
-        return getextensibleindex(self.idfobjects, self.model, self.idd_info, key, name)
+        return getextensibleindex(self.model, self.idd_info, key)
 
     def removeextensibles(self, key, name):
         """

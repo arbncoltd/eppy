@@ -12,6 +12,7 @@ from __future__ import absolute_import, division, print_function, unicode_litera
 
 import copy
 import itertools
+import re
 
 from munch import Munch as Bunch
 
@@ -558,9 +559,18 @@ def getfieldidd(bch, fieldname):
     try:
         fieldindex = bch.objls.index(fieldname)
     except ValueError as e:
-        return {}  # the fieldname does not exist
-        # so there is no idd
+        # We're probably asking for idd info for an extensible field.
+        # Check that this object has extensibles.
+        if bch.theidf.getextensibleindex(bch['key']):
+            # Reduce the number in the fieldname to 1.
+            if not (num := re.search(r'[0-9]+', fieldname)):
+                raise e
+            pre, post = fieldname.split(num.group(0))
+            fieldname = pre + '1' + post
+            fieldindex = bch.objls.index(fieldname)
+
     fieldidd = bch.objidd[fieldindex]
+
     return fieldidd
 
 

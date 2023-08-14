@@ -44,11 +44,11 @@ def rvalue(ddtt):
                 raise AttributeError("%s material not found in IDF" % layer)
     elif object_type == "CONSTRUCTION:FFACTORGROUNDFLOOR":
         # Based on E+ engineering reference, F-Factor includes film resistances.
-        rvalue = 1 / (ddtt["F-Factor"] * ddtt["PerimeterExposed"] / ddtt["Area"] )
+        rvalue = 1 / (ddtt["FFactor"] * ddtt["PerimeterExposed"] / ddtt["Area"] )
     elif object_type == "CONSTRUCTION:CFACTORUNDERGROUNDWALL":
         rvalue = (
             INSIDE_FILM_R +
-            1 / ddtt["C-Factor"] +
+            1 / ddtt["CFactor"] +
             # Based on E+ engineering reference, assuming there is only 1 basement level
             # i.e. average wall depth = height / 2
             0.0607 + 0.3479 * ddtt["Height"] / 2.

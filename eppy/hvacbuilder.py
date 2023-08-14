@@ -289,7 +289,7 @@ def componentsintobranch(idf, branch, listofcomponents, fluid=None):
     thebranch = idf.removeextensibles("BRANCH", thebranchname)  # empty the branch
     # fill in the new components with the node names into this branch
     # find the first extensible field and fill in the data in obj.
-    e_index = idf.getextensibleindex("BRANCH", thebranchname)
+    e_index = idf.getextensibleindex("BRANCH")
     theobj = thebranch.obj
     modeleditor.extendlist(theobj, e_index)  # just being careful here
     for comp, compnode in listofcomponents:
