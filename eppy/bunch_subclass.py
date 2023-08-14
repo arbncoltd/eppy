@@ -568,6 +568,8 @@ def getfieldidd(bch, fieldname):
             pre, post = fieldname.split(num.group(0))
             fieldname = pre + '1' + post
             fieldindex = bch.objls.index(fieldname)
+        else:
+            raise e
 
     fieldidd = bch.objidd[fieldindex]
 
