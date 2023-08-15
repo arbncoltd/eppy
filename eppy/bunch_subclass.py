@@ -571,7 +571,26 @@ def getfieldidd(bch, fieldname):
         else:
             raise e
 
-    fieldidd = bch.objidd[fieldindex]
+    try:
+        fieldidd = bch.objidd[fieldindex]
+    except IndexError as e:
+        # We're probably asking for idd info for an extensible field.
+        # Check that this object has extensibles.
+        if ext_i := bch.theidf.getextensibleindex(bch['key']):
+            # Get the number of repeated fields.
+            ext_n = int(
+                [
+                    key.split(':')[1]
+                    for key in bch.objidd[0].keys()
+                    if re.match(r'extensible', key)
+                ]
+                [0]
+            )
+            # Rewind the index to the first.
+            fieldindex = (fieldindex - ext_i) % ext_n + 1
+            fieldidd = bch.objidd[fieldindex]
+        else:
+            raise e
 
     return fieldidd
 
