@@ -587,7 +587,7 @@ def getfieldidd(bch, fieldname):
                 [0]
             )
             # Rewind the index to the first.
-            fieldindex = (fieldindex - ext_i) % ext_n + 1
+            fieldindex = (fieldindex - ext_i) % ext_n + ext_i
             fieldidd = bch.objidd[fieldindex]
         else:
             raise e

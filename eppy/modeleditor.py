@@ -251,7 +251,7 @@ def iddofobject(data, commdct, key):
 
 def getextensibleindex(data, commdct, key):
     """get the index of the first extensible item"""
-    theidd = iddofobject(data, commdct, key)
+    theidd = iddofobject(data, commdct, key.upper())
     extensible_i = [i for i in range(len(theidd)) if "begin-extensible" in theidd[i]]
     try:
         extensible_i = extensible_i[0]
