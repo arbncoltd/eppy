@@ -564,12 +564,16 @@ def getfieldidd(bch, fieldname):
         if bch.theidf.getextensibleindex(bch['key']):
             # Reduce the number in the fieldname to 1.
             if not (num := re.search(r'[0-9]+', fieldname)):
-                raise e
+                return {}
             pre, post = fieldname.split(num.group(0))
             fieldname = pre + '1' + post
-            fieldindex = bch.objls.index(fieldname)
+            try:
+                fieldindex = bch.objls.index(fieldname)
+            except ValueError:
+                return {}
+
         else:
-            raise e
+            return {}
 
     try:
         fieldidd = bch.objidd[fieldindex]
