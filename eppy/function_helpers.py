@@ -138,3 +138,27 @@ def fanpower_watts(ddtt):
 def fan_maxcfm(ddtt):
     """return the Maximum_Flow_Rate in cfm"""
     return eppy.fanpower.fan_maxcfm(ddtt)
+
+
+def zone_zonelists(ddtt):
+    return [
+        zonelist
+        for zonelist in ddtt.theidf.idfobjects.get('ZONELIST', [])
+        if ddtt.Name in zonelist.obj[2:]
+    ]
+
+    
+def zone_spaces(ddtt):
+    return [
+        space
+        for space in ddtt.theidf.idfobjects.get('SPACE', [])
+        if ddtt.Name == space.Zone_Name
+    ]
+
+    
+def space_spacelists(ddtt):
+    return [
+        spacelist
+        for spacelist in ddtt.theidf.idfobjects.get('SPACELIST', [])
+        if ddtt.Name in spacelist.obj[2:]
+    ]

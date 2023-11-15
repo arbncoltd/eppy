@@ -174,6 +174,15 @@ def addfunctions(abunch):
             func_dict = {"subsurfaces": fh.subsurfaces}
             abunch.__functions.update(func_dict)
 
+    # =====
+    # add zone and space list functions
+    if key == "ZONE":
+        func_dict = {"zonelists": fh.zone_zonelists, "spaces": fh.zone_spaces}
+        abunch.__functions.update(func_dict)
+    elif key == "SPACE":
+        func_dict = {"spacelists": fh.space_spacelists}
+        abunch.__functions.update(func_dict)
+
     return abunch
 
 
