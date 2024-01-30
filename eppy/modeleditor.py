@@ -405,6 +405,25 @@ def zonearea(idf, zonename, debug=False):
     return area
 
 
+def zonelistarea(idf, zonelistname, debug=False):
+    """zonelist area"""
+    zonelist = idf.getobject("ZONELIST", zonelistname)
+    surfs = idf.idfobjects["BuildingSurface:Detailed".upper()]
+    area = 0.0
+    for zone in [z for z in idf.idfobjects['ZONE'] if z.Name in zonelist.obj[2:]]:
+        zone_surfs = [s for s in surfs if s.Zone_Name == zone.Name]
+        floors = [s for s in zone_surfs if s.Surface_Type.upper() == "FLOOR"]
+        if debug:
+            print(len(floors))
+            print([floor.area for floor in floors])
+        # area = sum([floor.area for floor in floors])
+        if floors != []:
+            area += zonearea_floor(idf, zone.Name)
+        else:
+            area += zonearea_roofceiling(idf, zone.Name)
+    return area
+
+
 def zonearea_floor(idf, zonename, debug=False):
     """zone area - floor"""
     zone = idf.getobject("ZONE", zonename)
