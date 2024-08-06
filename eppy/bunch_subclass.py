@@ -720,7 +720,7 @@ def get_referenced_object(referring_object, fieldname):
     if not object_list:
         # Object list is empty.
         # Check for a case where a node field might be a NodeList.
-        if "NodeList" in fieldname:
+        if "NODELIST" in fieldname.upper():
             referenced_obj_name = referring_object[fieldname]
             for obj in idf.idfobjects["NODELIST"]:
                 if obj.isequal("Name", referenced_obj_name):
