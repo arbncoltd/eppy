@@ -716,10 +716,20 @@ def get_referenced_object(referring_object, fieldname):
     """
     idf = referring_object.theidf
     object_list = referring_object.getfieldidd_item(fieldname, "object-list")
-    for obj_type in idf.idfobjects:
-        for obj in idf.idfobjects[obj_type]:
-            valid_object_lists = obj.getfieldidd_item("Name", "reference")
-            if set(object_list).intersection(set(valid_object_lists)):
-                referenced_obj_name = referring_object[fieldname]
+
+    if not object_list:
+        # Object list is empty.
+        # Check for a case where a node field might be a NodeList.
+        if "NODELIST" in fieldname.upper():
+            referenced_obj_name = referring_object[fieldname]
+            for obj in idf.idfobjects["NODELIST"]:
                 if obj.isequal("Name", referenced_obj_name):
                     return obj
+    else:
+        for obj_type in idf.idfobjects:
+            for obj in idf.idfobjects[obj_type]:
+                valid_object_lists = obj.getfieldidd_item("Name", "reference")
+                if set(object_list).intersection(set(valid_object_lists)):
+                    referenced_obj_name = referring_object[fieldname]
+                    if obj.isequal("Name", referenced_obj_name):
+                        return obj
